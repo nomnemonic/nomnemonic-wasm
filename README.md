@@ -16,8 +16,8 @@ goexec 'http.ListenAndServe(`:8080`, http.FileServer(http.Dir(`./public`)))'
 
 ## Try online
 
-https://nomnemonic.github.io/nomnemonic-wasm/public
-https://nomnemonic.com/
+* https://nomnemonic.github.io/nomnemonic-wasm/public
+* https://nomnemonic.com/
 
 ## License
 
