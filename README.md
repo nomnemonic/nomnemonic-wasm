@@ -14,6 +14,11 @@ GOOS=js GOARCH=wasm go build -o public/nomnemonic.wasm
 goexec 'http.ListenAndServe(`:8080`, http.FileServer(http.Dir(`./public`)))'
 ```
 
+## Try online
+
+https://nomnemonic.github.io/nomnemonic-wasm/public
+https://nomnemonic.com/
+
 ## License
 
 Apache License 2.0
