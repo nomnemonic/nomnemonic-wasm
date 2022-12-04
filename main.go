@@ -32,7 +32,7 @@ func init() {
 }
 
 func main() {
-	fmt.Println("Hello, WebAssembly!")
+	fmt.Println("nomnemonic: deterministic mnemonic generator")
 	js.Global().Set("generate", js.FuncOf(generate))
 	js.Global().Set("libraryVersion", js.FuncOf(libraryVersion))
 	js.Global().Set("algorithmVersion", js.FuncOf(algorithmVersion))
