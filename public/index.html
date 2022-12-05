@@ -24,6 +24,12 @@
             .warning {
                 color: orange;
             }
+            .small {
+                font-size: small;
+            }
+            div {
+                margin-top: 10px;
+            }
             #message {
                 font-weight: bold;
             }
@@ -152,7 +158,7 @@
                 </select>
             </div>
             <div>
-                <label class="info">Id (Username/Email/Phone/Id)</label>
+                <label class="info">Identifer (Username/Email/Phone/Id/etc..)</label>
                 <input type="text" name="identifier" id="identifier" />
             </div>
             <div>
@@ -173,11 +179,25 @@
         </div>
         <div id="words"></div>
         <div id="footer">
-            <p>Library version: <span id="library_version"></span>, algorithm version: <span id="algorithm_version"></span></p>
+            <p>—</p>
             <p>
-                <a href="https://github.com/nomnemonic/nomnemonic">Library (Github)</a>
-                <a href="https://github.com/nomnemonic/nomnemonic-cli">Cli app (Github)</a>
-                <a href="https://github.com/nomnemonic/nomnemonic-wasm">Wasm app (Github)</a>
+                Fork at Github:
+                <a href="https://github.com/nomnemonic/nomnemonic">Library</a>,
+                <a href="https://github.com/nomnemonic/nomnemonic-cli">CLI app</a>,
+                <a href="https://github.com/nomnemonic/nomnemonic-wasm">WASM app</a>
+                -
+                <a href="./security-tips.html">Security tips</a>
+            </p>
+            <p class="small">
+                Current(this) WASM app runs with
+                library version <span id="library_version"></span> and
+                algorithm version <span id="algorithm_version"></span>.
+            </p>
+            <p class="small">
+                The app does not store any of the inputs entered! Please ensure that you can remember what you have
+                entered to be able to re-generate the same mnemonics in the future. By using this app, you agree the
+                opensource <a href="https://github.com/nomnemonic/nomnemonic-wasm/blob/main/LICENSE">LICENSE</a> of the
+                software and you are only responsible party. Use at your own risk!
             </p>
         </div>
     </body>

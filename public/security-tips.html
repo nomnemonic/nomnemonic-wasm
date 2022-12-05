@@ -1,0 +1,74 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+        <title>nomnemonic / Security tips</title>
+        <meta description="Security tips for deterministic mnemonic generator" />
+        <style type="text/css">
+            .small {
+                font-size: small;
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+            <h1><a href="./">nomnemonic</a> / Security tips</h1>
+            <p>
+                The security tips are just helpers to run the deterministic mnemonic generator in a more secure
+                environment and more reliable way. It does NOT mean that you should obey the tips!
+            </p>
+            <ul>
+                <li>
+                    Use your browser in Private mode without any extension enabled.
+                </li>
+                <li>
+                    Check your address bar and ensure that you are using a reliable source to load the app.
+                    <ul>
+                        <li>https://nomnemonic.com/</li>
+                        <li>https://www.nomnemonic.com/</li>
+                        <li>https://nomnemonic.github.io/nomnemonic-wasm/public</li>
+                    </ul>
+                </li>
+                <li>
+                    Once the page is loaded successfully, ensure the `library version` and the `algorithm version` are
+                    printed.
+                </li>
+                <li>
+                    After verifying the page is loaded successfully, close the internet connection(the static WASM web
+                    page does not make any network request to generate the mnemonics)
+                </li>
+                <li>
+                    Use something you know as input for `identifier`, `password`, `passcode` and do not use generic
+                    inputs like `test`, `001234`. Use a very strong `password`, there is no character limit at max.
+                    Ensure that you can remember what you have entered before using, the idea is to remove the storage
+                    of a lot words but also to re-generate the words with the same inputs you have entered.
+                </li>
+                <li>
+                    Check `id`, `password` and `passcode` entry accuracy for you.
+                </li>
+                <li>
+                    Generate words twice and check if it can generate the same words(to ensure the determinism, incase
+                    if it can't report bug!).
+                </li>
+                <li>
+                    If you have copied all the words using `Copy words` button, after using the words, copy something
+                    else to the clipboard.
+                </li>
+                <li>
+                    Use `Reset` button to reset the page inputs and close the page before enabling the internet
+                    connection.
+                </li>
+            </ul>
+        </div>
+        <div id="footer">
+            <p>—</p>
+            <p>
+                Fork at Github:
+                <a href="https://github.com/nomnemonic/nomnemonic">Library</a>,
+                <a href="https://github.com/nomnemonic/nomnemonic-cli">CLI app</a>,
+                <a href="https://github.com/nomnemonic/nomnemonic-wasm">WASM app</a>
+                -
+                <a href="./security-tips.html">Security tips</a>
+            </p>
+        </div>
+    </body>
+</html>
