@@ -1,9 +1,9 @@
 <html>
-	<head>
-		<meta charset="utf-8"/>
+   <head>
+        <meta charset="utf-8"/>
         <title>nomnemonic</title>
         <meta description="Generate deterministic mnemonics" />
-		<script src="wasm_exec.js"></script>
+        <script src="wasm_exec.js"></script>
         <style type="text/css">
             .info {
                 width: 300px;
@@ -34,13 +34,13 @@
                 font-weight: bold;
             }
         </style>
-		<script>
-			const go = new Go();
-			WebAssembly.instantiateStreaming(fetch("nomnemonic.wasm"), go.importObject).then((result) => {
-				go.run(result.instance);
+        <script>
+            const go = new Go();
+            WebAssembly.instantiateStreaming(fetch("nomnemonic.wasm"), go.importObject).then((result) => {
+                go.run(result.instance);
                 document.getElementById("library_version").innerText = libraryVersion();
                 document.getElementById("algorithm_version").innerText = algorithmVersion();
-			});
+            });
 
             function generateAndFill() {
                 document.getElementById("copy").hidden = true;
@@ -97,8 +97,9 @@
             function createBox(id) {
                 let d = document.createElement("div");
                 let html = `<span class="fixed-size">{{id}}.</span>
-<input type="password" name="word" id="word_{{id}}" />
-<a href="#word_{{id}}" onclick="toggle('word_{{id}}');">Show/Hide</a>`.replaceAll("{{id}}", id);
+<input type="password" name="word" id="word_{{id}}" autocomplete="off" />
+<a href="#word_{{id}}" onclick="toggle('word_{{id}}');">Show/Hide</a> -
+<a href="#word_{{id}}" onclick="copy('word_{{id}}');">Copy</a>`.replaceAll("{{id}}", id);
                 d.innerHTML = html;
                 return d;
             }
@@ -128,10 +129,19 @@
                 }
             }
 
+            function copy(id) {
+                let elem = document.getElementById(id);
+                if (elem === null) {
+                    navigator.clipboard.writeText("");
+                    return
+                }
+                navigator.clipboard.writeText(elem.value);
+            }
+
             function copyWords() {
                 var words = [];
                 for (var i = 0; i < 24; i++) {
-                    let elem = document.getElementById("word_" + (i+1))
+                    let elem = document.getElementById("word_" + (i+1));
                     if (elem === null) {
                         break;
                     }
@@ -141,9 +151,9 @@
                 document.getElementById("message").className.add("warning");
                 document.getElementById("message").innerText = "Words are copied to clipboard!"
             }
-		</script>
-	</head>
-	<body>
+      </script>
+   </head>
+   <body>
         <h1>Deterministic Mnemonic Generator</h1>
         <div id="message"></div>
         <div id="inputs">
@@ -159,16 +169,16 @@
             </div>
             <div>
                 <label class="info">Identifer (Username/Email/Phone/Id/etc..)</label>
-                <input type="text" name="identifier" id="identifier" />
+                <input type="text" name="identifier" id="identifier" autocomplete="off" />
             </div>
             <div>
                 <label class="info">Password (min 12 chars)</label>
-                <input type="password" name="password" id="password" />
+                <input type="password" name="password" id="password" autocomplete="off" />
                 <a href="#password" onclick="toggleSingle('password');">Show/Hide</a>
             </div>
             <div>
                 <label class="info">Passcode (6 digit number can start with zeros)</label>
-                <input type="password" name="passcode" id="passcode" />
+                <input type="password" name="passcode" id="passcode" autocomplete="off" />
                 <a href="#passcode" onclick="toggleSingle('passcode');">Show/Hide</a>
             </div>
             <div id="actions">
