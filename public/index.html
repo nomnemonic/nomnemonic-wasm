@@ -44,12 +44,19 @@
             });
 
             function generateAndFill() {
-                document.getElementById("generate").disabled = true;
-                document.getElementById("reset").disabled = true;
-                document.getElementById("copy").hidden = true;
+                document.getElementById("btngenerate").disabled = true;
+                document.getElementById("btnreset").disabled = true;
+                document.getElementById("btncopy").hidden = true;
+                document.getElementById("words").innerHTML = "";
+                document.getElementById("message").innerHTML = "The process can take about 60s depending on your device!";
                 document.getElementById("message").classList.remove("warning");
-                document.getElementById("message").classList.remove("failure");
                 document.getElementById("message").classList.remove("success");
+                document.getElementById("message").classList.remove("failure");
+
+                setTimeout(() => doGenerate(), 300);
+            }
+
+            function doGenerate() {
                 let sentence = generate(
                     document.getElementById("identifier").value,
                     document.getElementById("password").value,
@@ -59,8 +66,8 @@
                 if (sentence.match("Error:")) {
                     document.getElementById("message").innerText = sentence;
                     document.getElementById("message").classList.add("failure");
-                    document.getElementById("generate").disabled = false;
-                    document.getElementById("reset").disabled = false;
+                    document.getElementById("btngenerate").disabled = false;
+                    document.getElementById("btnreset").disabled = false;
                     return;
                 }
 
@@ -73,9 +80,9 @@
                 for (var i = 0; i < words.length; i++) {
                     document.getElementById("word_"+(i+1)).value = words[i];
                 }
-                document.getElementById("copy").hidden = false;
-                document.getElementById("generate").disabled = false;
-                document.getElementById("reset").disabled = false;
+                document.getElementById("btncopy").hidden = false;
+                document.getElementById("btngenerate").disabled = false;
+                document.getElementById("btnreset").disabled = false;
             }
 
             function reset() {
@@ -84,7 +91,7 @@
                 document.getElementById("passcode").value = "";
                 document.getElementById("words").innerHTML = "";
                 document.getElementById("message").innerHTML = "";
-                document.getElementById("copy").hidden = true;
+                document.getElementById("btncopy").hidden = true;
 
                 document.getElementById("message").classList.remove("success");
                 document.getElementById("message").classList.remove("failure");
@@ -162,7 +169,7 @@
    </head>
    <body>
         <h1>Deterministic Mnemonic Generator</h1>
-        <div id="message"><span class="small">The process can take about 60s depending on your device!</span></div>
+        <div id="message">The process can take about 60s depending on your device!</div>
         <div id="inputs">
             <div>
                 <label class="info">Words Size</label>
@@ -189,9 +196,9 @@
                 <a href="#passcode" onclick="toggleSingle('passcode');">Show/Hide</a>
             </div>
             <div id="actions">
-                <button onclick="generateAndFill();" id="generate">Generate</button>
-                <button onclick="reset();" id="reset">Reset</button>
-                <button onclick="copyWords();" id="copy" hidden="true">Copy words</button>
+                <button onclick="generateAndFill();" id="btngenerate">Generate</button>
+                <button onclick="reset();" id="btnreset">Reset</button>
+                <button onclick="copyWords();" id="btncopy" hidden="true">Copy words</button>
             </div>
         </div>
         <div id="words"></div>
