@@ -1,9 +1,10 @@
 <html>
    <head>
         <meta charset="utf-8"/>
-        <title>nomnemonic</title>
+        <title>nomnemonic / v0.2.0 / algorithm v2.0.0</title>
+        <meta name="robots" content="noimageindex, nofollow, nosnippet">
         <meta description="Generate deterministic mnemonics" />
-        <script src="wasm_exec.js"></script>
+        <script src="../wasm_exec.js"></script>
         <style type="text/css">
             .info {
                 width: 300px;
@@ -36,16 +37,13 @@
         </style>
         <script>
             const go = new Go();
-            WebAssembly.instantiateStreaming(fetch("nomnemonic-v0.3.0.wasm"), go.importObject).then((result) => {
+            WebAssembly.instantiateStreaming(fetch("nomnemonic-v0.2.0.wasm"), go.importObject).then((result) => {
                 go.run(result.instance);
                 document.getElementById("library_version").innerText = libraryVersion();
                 document.getElementById("algorithm_version").innerText = algorithmVersion();
-                document.title = "nomnemonic / v" + libraryVersion() + "/ algorithm v" + algorithmVersion();
             });
 
             function generateAndFill() {
-                document.getElementById("generate").disabled = true;
-                document.getElementById("reset").disabled = true;
                 document.getElementById("copy").hidden = true;
                 document.getElementById("message").classList.remove("warning");
                 document.getElementById("message").classList.remove("failure");
@@ -59,8 +57,6 @@
                 if (sentence.match("Error:")) {
                     document.getElementById("message").innerText = sentence;
                     document.getElementById("message").classList.add("failure");
-                    document.getElementById("generate").disabled = false;
-                    document.getElementById("reset").disabled = false;
                     return;
                 }
 
@@ -74,8 +70,6 @@
                     document.getElementById("word_"+(i+1)).value = words[i];
                 }
                 document.getElementById("copy").hidden = false;
-                document.getElementById("generate").disabled = false;
-                document.getElementById("reset").disabled = false;
             }
 
             function reset() {
@@ -162,7 +156,7 @@
    </head>
    <body>
         <h1>Deterministic Mnemonic Generator</h1>
-        <div id="message"><span class="small">The process can take about 60s depending on your device!</span></div>
+        <div id="message"></div>
         <div id="inputs">
             <div>
                 <label class="info">Words Size</label>
@@ -189,8 +183,8 @@
                 <a href="#passcode" onclick="toggleSingle('passcode');">Show/Hide</a>
             </div>
             <div id="actions">
-                <button onclick="generateAndFill();" id="generate">Generate</button>
-                <button onclick="reset();" id="reset">Reset</button>
+                <button onclick="generateAndFill();">Generate</button>
+                <button onclick="reset();">Reset</button>
                 <button onclick="copyWords();" id="copy" hidden="true">Copy words</button>
             </div>
         </div>
@@ -203,10 +197,7 @@
                 <a href="https://github.com/nomnemonic/nomnemonic-cli">CLI app</a>,
                 <a href="https://github.com/nomnemonic/nomnemonic-wasm">WASM app</a>
                 -
-                <a href="./security-tips.html">Security tips</a>
-            </p>
-            <p>
-                Old versions: <a href="/v0.2.0">v0.2.0</a>
+                <a href="./../security-tips.html">Security tips</a>
             </p>
             <p class="small">
                 Current(this) WASM app runs with

@@ -12,10 +12,10 @@ import (
 
 const (
 	// nomnemonic library version
-	_versionLibrary = "v0.2.0"
+	_versionLibrary = nomnemonic.Version
 
 	// nomnemonic algorithm version
-	_versionAlgorithm = "v2.0.0"
+	_versionAlgorithm = nomnemonic.VersionAlgorithm
 )
 
 //go:embed data/english.txt

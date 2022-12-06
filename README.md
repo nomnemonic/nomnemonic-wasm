@@ -5,7 +5,7 @@ Simple web app for nomnemonic generator using Go WASM.
 ## Build
 
 ```
-GOOS=js GOARCH=wasm go build -o public/nomnemonic.wasm
+GOOS=js GOARCH=wasm go build -o public/nomnemonic-v0.3.0.wasm
 ```
 
 ## Run web server
@@ -18,6 +18,11 @@ goexec 'http.ListenAndServe(`:8080`, http.FileServer(http.Dir(`./public`)))'
 
 * https://nomnemonic.github.io/nomnemonic-wasm/public
 * https://nomnemonic.com/
+
+
+**Older versions**
+
+* [v0.2.0](https://nomnemonic.github.io/nomnemonic-wasm/public/v0.2.0)
 
 ## License
 
