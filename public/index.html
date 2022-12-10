@@ -123,6 +123,10 @@
                 document.getElementById("message").innerText = "Reset completed successfully and the clipboard cleaned!";
             }
 
+            function enableReset() {
+                document.getElementById("btnreset").disabled = false;
+            }
+
             function removeClassNames(id) {
                 let classNames = document.getElementById(id).classList;
                 classNames.forEach(name => {
@@ -225,16 +229,16 @@
                     </div>
                     <div>
                         <label class="info">Identifer (Username/Email/Phone/Id/etc..)</label>
-                        <input type="text" name="identifier" id="identifier" autocomplete="off" minlength="2" required="required" class="user_input" />
+                        <input type="text" name="identifier" id="identifier" autocomplete="off" minlength="2" required="required" class="user_input" onkeyup="enableReset();" />
                     </div>
                     <div>
                         <label class="info">Password (min 12 chars)</label>
-                        <input type="password" name="password" id="password" autocomplete="off" minlength="12" required="required" class="user_input" />
+                        <input type="password" name="password" id="password" autocomplete="off" minlength="12" required="required" class="user_input" onkeyup="enableReset();" />
                         <a href="#password" onclick="toggleSingle('password');" title="show/hide">Show/Hide</a>
                     </div>
                     <div>
                         <label class="info">Passcode (6 digit number can start with zeros)</label>
-                        <input type="password" name="passcode" id="passcode" autocomplete="off" minlength="6" maxlength="6" required="required" pattern="\d{6,6}" class="user_input" />
+                        <input type="password" name="passcode" id="passcode" autocomplete="off" minlength="6" maxlength="6" required="required" pattern="\d{6,6}" class="user_input" onkeyup="enableReset();" />
                         <a href="#passcode" onclick="toggleSingle('passcode');" title="show/hide">Show/Hide</a>
                     </div>
                     <p class="small">
