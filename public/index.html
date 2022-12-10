@@ -114,6 +114,7 @@
                 document.getElementById("passcode").value = "";
                 document.getElementById("words").innerHTML = "";
                 document.getElementById("btncopy").hidden = true;
+                document.getElementById("btnreset").disabled = true;
 
                 navigator.clipboard.writeText(" ");
 
@@ -245,7 +246,7 @@
                     </p>
                     <div id="actions">
                         <button onclick="generateAndFill();" id="btngenerate">Generate</button>
-                        <button onclick="reset();" id="btnreset">Reset</button>
+                        <button onclick="reset();" id="btnreset" disabled>Reset</button>
                         <button onclick="copyWords();" id="btncopy" hidden="true">Copy words</button>
                     </div>
             </div>
