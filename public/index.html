@@ -122,7 +122,9 @@
             function removeClassNames(id) {
                 let classNames = document.getElementById(id).classList;
                 classNames.forEach(name => {
-                    document.getElementById(id).classList.remove(name);
+                    if (name !== "small") {
+                        document.getElementById(id).classList.remove(name);
+                    }
                 });
             }
 
