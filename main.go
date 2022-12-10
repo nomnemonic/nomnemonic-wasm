@@ -32,7 +32,7 @@ func init() {
 }
 
 func main() {
-	fmt.Println("nomnemonic: deterministic mnemonic generator")
+	fmt.Printf("nomnemonic (v%s): deterministic mnemonic generator\n", libraryVersion)
 	js.Global().Set("generate", js.FuncOf(generate))
 	js.Global().Set("libraryVersion", js.FuncOf(libraryVersion))
 	js.Global().Set("algorithmVersion", js.FuncOf(algorithmVersion))

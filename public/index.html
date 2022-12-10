@@ -4,16 +4,16 @@
         <title>nomnemonic</title>
         <meta description="Generate deterministic mnemonics" />
         <script src="wasm_exec.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <style type="text/css">
             .info {
-                width: 300px;
-                display: inline-block;
-                text-align: right;
+                width: 340px;
+                display: block;
             }
             .fixed-size {
                 width: 20px;
                 display: inline-block;
-                text-align: right;
             }
             .success {
                 color: green;
@@ -31,15 +31,36 @@
                 margin-top: 10px;
             }
             #message {
-                font-weight: bold;
+                background: rgb(255, 255, 165);
+                padding: 5px;
+            }
+            input:invalid {
+                color: darkred;
+            }
+            fieldset {
+                border: 1px solid #ececec;
+            }
+            input, select, button {
+                padding: 5px;
+            }
+            .user_input {
+                width: 200px;
+            }
+            .container {
+                padding: 5px;
+            }
+            @media (min-width:481px) {
+                .info {
+                    text-align: right;
+                    display: inline-block;
+                }
             }
         </style>
         <script>
             const go = new Go();
             WebAssembly.instantiateStreaming(fetch("nomnemonic-v0.3.0.wasm"), go.importObject).then((result) => {
                 go.run(result.instance);
-                document.getElementById("library_version").innerText = libraryVersion();
-                document.getElementById("algorithm_version").innerText = algorithmVersion();
+                document.getElementById("library_version").innerHTML = libraryVersion();
                 document.title = "nomnemonic / v" + libraryVersion() + " / algorithm v" + algorithmVersion();
             });
 
@@ -48,10 +69,9 @@
                 document.getElementById("btnreset").disabled = true;
                 document.getElementById("btncopy").hidden = true;
                 document.getElementById("words").innerHTML = "";
-                document.getElementById("message").innerHTML = "The process can take about 60s depending on your device!";
-                document.getElementById("message").classList.remove("warning");
-                document.getElementById("message").classList.remove("success");
-                document.getElementById("message").classList.remove("failure");
+
+                removeClassNames("message");
+                document.getElementById("message").innerText = "Hold tight, generating deterministic words!";
 
                 setTimeout(() => doGenerate(), 300);
             }
@@ -64,8 +84,8 @@
                     document.getElementById("size").value,
                 );
                 if (sentence.match("Error:")) {
-                    document.getElementById("message").innerText = sentence;
                     document.getElementById("message").classList.add("failure");
+                    document.getElementById("message").innerText = sentence;
                     document.getElementById("btngenerate").disabled = false;
                     document.getElementById("btnreset").disabled = false;
                     return;
@@ -90,12 +110,20 @@
                 document.getElementById("password").value = "";
                 document.getElementById("passcode").value = "";
                 document.getElementById("words").innerHTML = "";
-                document.getElementById("message").innerHTML = "";
                 document.getElementById("btncopy").hidden = true;
 
-                document.getElementById("message").classList.remove("success");
-                document.getElementById("message").classList.remove("failure");
-                document.getElementById("message").classList.remove("warning");
+                navigator.clipboard.writeText(" ");
+
+                removeClassNames("message");
+                document.getElementById("message").classList.add("warning");
+                document.getElementById("message").innerText = "Reset complete successfully and the clipboard cleaned!";
+            }
+
+            function removeClassNames(id) {
+                let classNames = document.getElementById(id).classList;
+                classNames.forEach(name => {
+                    document.getElementById(id).classList.remove(name);
+                });
             }
 
             function createBoxes() {
@@ -150,6 +178,10 @@
                     return
                 }
                 navigator.clipboard.writeText(elem.value);
+
+                removeClassNames("message");
+                document.getElementById("message").classList.add("warning");
+                document.getElementById("message").innerText = "The word is copied to the clipboard!";
             }
 
             function copyWords() {
@@ -161,71 +193,70 @@
                     }
                     words.push(elem.value);
                 }
+
                 navigator.clipboard.writeText(words.join(" "));
-                document.getElementById("message").className.add("warning");
+
+                removeClassNames("message");
+                document.getElementById("message").classList.add("warning");
                 document.getElementById("message").innerText = "Words are copied to clipboard!"
             }
       </script>
    </head>
    <body>
-        <h1>Deterministic Mnemonic Generator</h1>
-        <div id="message">The process can take about 60s depending on your device!</div>
-        <div id="inputs">
-            <div>
-                <label class="info">Words Size</label>
-                <select name="size" id="size">
-                    <option value="24">24</option>
-                    <option value="21">21</option>
-                    <option value="18">18</option>
-                    <option value="15">15</option>
-                    <option value="12">12</option>
-                </select>
+        <div class="container">
+            <h1>Deterministic Mnemonic Generator</h1>
+            <div id="inputs">
+                    <p id="message" class="small">The process can take about 60s depending on your device!</p>
+                    <div>
+                        <label class="info">Words Size</label>
+                        <select name="size" id="size">
+                            <option value="24">24</option>
+                            <option value="21">21</option>
+                            <option value="18">18</option>
+                            <option value="15">15</option>
+                            <option value="12">12</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="info">Identifer (Username/Email/Phone/Id/etc..)</label>
+                        <input type="text" name="identifier" id="identifier" autocomplete="off" minlength="2" required="required" class="user_input" />
+                    </div>
+                    <div>
+                        <label class="info">Password (min 12 chars)</label>
+                        <input type="password" name="password" id="password" autocomplete="off" minlength="12" required="required" class="user_input" />
+                        <a href="#password" onclick="toggleSingle('password');" title="show/hide">Show/Hide</a>
+                    </div>
+                    <div>
+                        <label class="info">Passcode (6 digit number can start with zeros)</label>
+                        <input type="password" name="passcode" id="passcode" autocomplete="off" minlength="6" maxlength="6" required="required" pattern="\d{6,6}" class="user_input" />
+                        <a href="#passcode" onclick="toggleSingle('passcode');" title="show/hide">Show/Hide</a>
+                    </div>
+                    <p class="small">
+                        The current library version that app runs is v<span id="library_version"></span>.
+                        The app does NOT require network connection to generate the words and does NOT store any of the inputs entered!
+                        Please ensure that you can remember what you have entered and the library version to be able to re-generate the same mnemonics in the future.
+                        By using this app, you agree the opensource <a href="https://github.com/nomnemonic/nomnemonic-wasm/blob/main/LICENSE">LICENSE</a>
+                        of the software. You are the only responsible party by using the app, use at your own risk!
+                    </p>
+                    <div id="actions">
+                        <button onclick="generateAndFill();" id="btngenerate">Generate</button>
+                        <button onclick="reset();" id="btnreset">Reset</button>
+                        <button onclick="copyWords();" id="btncopy" hidden="true">Copy words</button>
+                    </div>
             </div>
-            <div>
-                <label class="info">Identifer (Username/Email/Phone/Id/etc..)</label>
-                <input type="text" name="identifier" id="identifier" autocomplete="off" />
+            <div id="words"></div>
+            <div id="footer">
+                <p>—</p>
+                <p>
+                    Fork at Github:
+                    <a href="https://github.com/nomnemonic/nomnemonic">Library</a>,
+                    <a href="https://github.com/nomnemonic/nomnemonic-cli">CLI app</a>,
+                    <a href="https://github.com/nomnemonic/nomnemonic-wasm">WASM app</a>
+                    -
+                    <a href="./security-tips.html">Security tips</a>,
+                    Older versions: <a href="./v0.2.0/index.html">v0.2.0</a>
+                </p>
             </div>
-            <div>
-                <label class="info">Password (min 12 chars)</label>
-                <input type="password" name="password" id="password" autocomplete="off" />
-                <a href="#password" onclick="toggleSingle('password');">Show/Hide</a>
-            </div>
-            <div>
-                <label class="info">Passcode (6 digit number can start with zeros)</label>
-                <input type="password" name="passcode" id="passcode" autocomplete="off" />
-                <a href="#passcode" onclick="toggleSingle('passcode');">Show/Hide</a>
-            </div>
-            <div id="actions">
-                <button onclick="generateAndFill();" id="btngenerate">Generate</button>
-                <button onclick="reset();" id="btnreset">Reset</button>
-                <button onclick="copyWords();" id="btncopy" hidden="true">Copy words</button>
-            </div>
-        </div>
-        <div id="words"></div>
-        <div id="footer">
-            <p>—</p>
-            <p>
-                Fork at Github:
-                <a href="https://github.com/nomnemonic/nomnemonic">Library</a>,
-                <a href="https://github.com/nomnemonic/nomnemonic-cli">CLI app</a>,
-                <a href="https://github.com/nomnemonic/nomnemonic-wasm">WASM app</a>
-                -
-                <a href="./security-tips.html">Security tips</a>
-            </p>
-            <p>
-                Old versions: <a href="./v0.2.0/index.html">v0.2.0</a>
-            </p>
-            <p class="small">
-                Current(this) WASM app runs with
-                library version <span id="library_version"></span> and
-                algorithm version <span id="algorithm_version"></span>.
-            </p>
-            <p class="small">
-                The app does not store any of the inputs entered! Please ensure that you can remember what you have
-                entered to be able to re-generate the same mnemonics in the future. By using this app, you agree the
-                opensource <a href="https://github.com/nomnemonic/nomnemonic-wasm/blob/main/LICENSE">LICENSE</a> of the
-                software and you are only responsible party. Use at your own risk!
-            </p>
         </div>
     </body>
 </html>
