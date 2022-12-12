@@ -13,6 +13,12 @@
             div {
                 margin-top: 10px;
             }
+            input, select, button {
+                padding: 5px;
+            }
+            input:invalid {
+                color: red;
+            }
             .container {
                 padding: 5px;
             }
@@ -36,21 +42,12 @@
             .small {
                 font-size: small;
             }
+            .user_input {
+                width: 200px;
+            }
             #message {
                 background: rgb(255, 255, 165);
                 padding: 5px;
-            }
-            input:invalid {
-                color: darkred;
-            }
-            fieldset {
-                border: 1px solid #ececec;
-            }
-            input, select, button {
-                padding: 5px;
-            }
-            .user_input {
-                width: 200px;
             }
             @media (min-width:481px) {
                 .info {
@@ -271,6 +268,7 @@
                     <a href="https://github.com/nomnemonic/nomnemonic-cli">CLI app</a>,
                     <a href="https://github.com/nomnemonic/nomnemonic-wasm">WASM app</a>
                     -
+                    <a href="./donations.html">Donations</a>,
                     <a href="./security-tips.html">Security tips</a>,
                     <a href="./privacy-policy.html">Privacy policy</a>,
                     Older versions: <a href="./v0.2.0/index.html">v0.2.0</a>
