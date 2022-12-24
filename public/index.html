@@ -49,6 +49,10 @@
                 background: rgb(255, 255, 165);
                 padding: 5px;
             }
+            #library_version{
+                font-weight: bold;
+                font-size: medium;
+            }
             @media (min-width:481px) {
                 .info {
                     text-align: right;
@@ -58,11 +62,14 @@
         </style>
         <script>
             const go = new Go();
-            WebAssembly.instantiateStreaming(fetch("nomnemonic-v0.3.0.wasm"), go.importObject).then((result) => {
-                go.run(result.instance);
-                document.getElementById("library_version").innerHTML = libraryVersion();
-                document.title = "nomnemonic / v" + libraryVersion() + " / algorithm v" + algorithmVersion();
-            });
+            function load() {
+                let version = document.getElementById("version").value;
+                WebAssembly.instantiateStreaming(fetch("./nomnemonic-v" + version+ ".wasm"), go.importObject).then((result) => {
+                    go.run(result.instance);
+                    document.getElementById("library_version").innerHTML = "v" + version;
+                    document.title = "nomnemonic / v" + libraryVersion() + " / algorithm v" + algorithmVersion();
+                });
+            }
 
             function generateAndFill() {
                 document.getElementById("btngenerate").disabled = true;
@@ -217,13 +224,19 @@
             }
       </script>
    </head>
-   <body>
+   <body onload="load();">
         <div class="container">
-            <h1>Deterministic Mnemonic Generator</h1>
+            <h1>
+                Deterministic Mnemonic Generator /
+                <select name="version" id="version" onchange="load();">
+                    <option value="0.3.0" selected>v0.3.0</option>
+                    <option value="0.2.0">v0.2.0</option>
+                </select>
+            </h1>
             <div id="inputs">
                     <p id="message" class="small">The process can take about 60s depending on your device!</p>
                     <div>
-                        <label class="info">Words Size</label>
+                        <label class="info">Word size</label>
                         <select name="size" id="size">
                             <option value="24">24</option>
                             <option value="21">21</option>
@@ -247,10 +260,10 @@
                         <a href="#passcode" onclick="toggleSingle('passcode');" title="show/hide">Show/Hide</a>
                     </div>
                     <p class="small">
-                        The current library version that app runs is v<span id="library_version"></span>.
-                        The app does NOT require network connection to generate the words and does NOT store any of the inputs entered!
+                        Nomnemonic app currently runs on <span id="library_version"></span> (different versions generate different mnemonic words).
+                        Once it is loaded, nomnemonic does NOT require network connection to generate the words and does NOT store any of the inputs entered!
                         Please ensure that you can remember what you have entered and the library version to be able to re-generate the same mnemonics in the future.
-                        By using this app, you agree the opensource <a href="https://github.com/nomnemonic/nomnemonic-wasm/blob/main/LICENSE">LICENSE</a>
+                        By using the nomnemonic, you agree the opensource <a href="https://github.com/nomnemonic/nomnemonic-wasm/blob/main/LICENSE">LICENSE</a>
                         of the software. You are the only responsible party by using the app, use at your own risk!
                     </p>
                     <div id="actions">
@@ -270,8 +283,7 @@
                     -
                     <a href="./donations.html">Donations</a>,
                     <a href="./security-tips.html">Security tips</a>,
-                    <a href="./privacy-policy.html">Privacy policy</a>,
-                    Older versions: <a href="./v0.2.0/index.html">v0.2.0</a>
+                    <a href="./privacy-policy.html">Privacy policy</a>
                 </p>
             </div>
         </div>
